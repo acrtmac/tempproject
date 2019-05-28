@@ -1,0 +1,37 @@
+#include <Adafruit_DHT_Particle.h>
+#define DHTPIN D5 
+#define DHTTYPE DHT11	
+
+DHT dht(DHTPIN, DHTTYPE);
+int boardLed = D7;
+int tempwanted;
+void setup() 
+{
+    pinMode(boardLed,OUTPUT); 
+    delay(1000);
+    tempwanted = t ;
+}
+void loop() 
+{
+	float t = dht.getTempCelcius();
+    digitalWrite(boardLed,HIGH);
+    delay(1000);
+    
+    if ( t > tempwanted) 
+    {
+        Particle.publish("Temperature is too high, it is : ", String(t)); 
+        digitalWrite(boardLed,HIGH);
+        delay(2000);
+    }
+    if (t < tempwanted)
+    {
+        Particle.publish("Temperature is fine, it is : ", String(t));
+        digitalWrite(boardLed,LOW);
+        delay(2000);
+    }
+    if ( isnan(t) )
+	{
+		Serial.println("Failed to read from DHT sensor!");
+		return;
+	}
+}
